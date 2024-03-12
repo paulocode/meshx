@@ -8,8 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../exceptions/mesh_radio_exception.dart';
 import '../../models/mesh_radio.dart';
 import '../../models/radio_connector_state.dart';
+import '../wrap/flutter_blue_plus_mockable.dart';
 import '../wrap/local_platform.dart';
 import 'ble_characteristics_finder.dart';
+
 
 part 'radio_connector.g.dart';
 
@@ -18,12 +20,15 @@ class RadioConnector extends _$RadioConnector {
   final _logger = Logger();
   late BleCharacteristicsFinder _bleCharacteristicsFinder;
   late LocalPlatform _localPlatform;
+  late FlutterBluePlusMockable _flutterBluePlus;
+
   StreamSubscription<BluetoothConnectionState>? _bleConnectSubscription;
 
   @override
   RadioConnectorState build() {
     _bleCharacteristicsFinder = ref.watch(bleCharacteristicsFinderProvider);
     _localPlatform = ref.watch(localPlatformProvider);
+    _flutterBluePlus = ref.watch(flutterBluePlusProvider);
     return Disconnected();
   }
 
@@ -41,6 +46,10 @@ class RadioConnector extends _$RadioConnector {
     if (state is Connecting) {
       return;
     }
+    
+    // there doesn't seem to be a way to "test" if BT is on so just attempt call turnOn()
+    // if failure an exception is thrown, if already on it just returns.
+    await _flutterBluePlus.turnOn();
 
     final device = radio.device;
     final radioId = device.remoteId.str;
