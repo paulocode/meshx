@@ -14,10 +14,6 @@ part 'radio_config_service.g.dart';
 class RadioConfigService extends _$RadioConfigService {
   late RadioConfigUploaderService _radioConfigUploaderService;
 
-  int get _myNodeNum {
-    return state.myNodeNum;
-  }
-
   @override
   RadioConfiguration build() {
     _radioConfigUploaderService = ref.watch(radioConfigUploaderServiceProvider);
@@ -35,7 +31,6 @@ class RadioConfigService extends _$RadioConfigService {
     state = state.copyWith(loraConfig: loraConfig);
     if (upload) {
       await _radioConfigUploaderService.setLoraConfig(
-        nodeNum: _myNodeNum,
         loraConfig: loraConfig,
       );
     }

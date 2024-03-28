@@ -7,7 +7,7 @@ part of 'radio_config_uploader_service.dart';
 // **************************************************************************
 
 String _$radioConfigUploaderServiceHash() =>
-    r'53587d5fa5153528200833777b805e661c952814';
+    r'340282cd0f23a9a8dbebf713a0b70e1266d6613f';
 
 /// See also [radioConfigUploaderService].
 @ProviderFor(radioConfigUploaderService)

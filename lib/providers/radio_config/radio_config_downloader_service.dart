@@ -6,6 +6,7 @@ import '../../services/radio_config/radio_config_downloader_service.dart';
 import '../queued_radio_writer.dart';
 import '../radio_connector_service.dart';
 import '../radio_reader.dart';
+import 'extra_radio_config.dart';
 import 'radio_config_service.dart';
 
 part 'radio_config_downloader_service.g.dart';
@@ -26,6 +27,8 @@ RadioConfigDownloaderService radioConfigDownloaderService(
     // riverpod requires us to read the notifier
     radioConfigServiceProvider: () =>
         ref.read(radioConfigServiceProvider.notifier),
+    extraRadioConfigProvider: () =>
+        ref.read(extraRadioConfigProvider.notifier),
     disconnect: (errorMsg) => ref
         .read(radioConnectorServiceProvider.notifier)
         .disconnect(errorMsg: errorMsg),

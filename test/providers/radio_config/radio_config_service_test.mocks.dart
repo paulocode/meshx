@@ -33,18 +33,13 @@ class MockRadioConfigUploaderService extends _i1.Mock
   }
 
   @override
-  _i3.Future<void> setLoraConfig({
-    required int? nodeNum,
-    required _i4.Config_LoRaConfig? loraConfig,
-  }) =>
+  _i3.Future<void> setLoraConfig(
+          {required _i4.Config_LoRaConfig? loraConfig}) =>
       (super.noSuchMethod(
         Invocation.method(
           #setLoraConfig,
           [],
-          {
-            #nodeNum: nodeNum,
-            #loraConfig: loraConfig,
-          },
+          {#loraConfig: loraConfig},
         ),
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),

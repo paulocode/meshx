@@ -6,6 +6,7 @@ import '../../exceptions/mesh_radio_exception.dart';
 import '../../models/radio_connector_state.dart';
 import '../../protobufs/generated/meshtastic/config.pb.dart';
 import '../../protobufs/generated/meshtastic/mesh.pb.dart';
+import '../../providers/radio_config/extra_radio_config.dart';
 import '../../providers/radio_config/radio_config_service.dart';
 import '../interfaces/radio_reader.dart';
 import '../queued_radio_writer.dart';
@@ -16,11 +17,13 @@ class RadioConfigDownloaderService {
     required RadioReader radioReader,
     required RadioConnectorState radioConnectorState,
     required RadioConfigService Function() radioConfigServiceProvider,
+    required ExtraRadioConfig Function() extraRadioConfigProvider,
     required void Function(String?) disconnect,
     required void Function(void Function() cb) onDispose,
   })  : _radioWriter = radioWriter,
         _radioReader = radioReader,
         _radioConfigServiceProvider = radioConfigServiceProvider,
+        _extraRadioConfigProvider = extraRadioConfigProvider,
         _radioConnectorState = radioConnectorState,
         _disconnect = disconnect {
     if (_radioConnectorState is Connected) {
@@ -35,6 +38,7 @@ class RadioConfigDownloaderService {
   final RadioReader _radioReader;
   final RadioConnectorState _radioConnectorState;
   final RadioConfigService Function() _radioConfigServiceProvider;
+  final ExtraRadioConfig Function() _extraRadioConfigProvider;
   final void Function(String?) _disconnect;
   final _random = Random();
   final _logger = Logger();
@@ -43,6 +47,10 @@ class RadioConfigDownloaderService {
 
   RadioConfigService get _radioConfigService {
     return _radioConfigServiceProvider();
+  }
+
+  ExtraRadioConfig get _extraRadioConfig {
+    return _extraRadioConfigProvider();
   }
 
   Future<void> _requestConfig() async {
@@ -83,6 +91,7 @@ class RadioConfigDownloaderService {
 
   Future<void> _processMyInfo(MyNodeInfo myInfo) async {
     _myNodeNum = myInfo.myNodeNum;
+    _extraRadioConfig.setMyNodeNum(myInfo.myNodeNum);
     await _radioConfigService.setMyNodeNum(myInfo.myNodeNum);
   }
 
@@ -90,7 +99,7 @@ class RadioConfigDownloaderService {
     final payloadVariant = config.whichPayloadVariant();
     if (payloadVariant == Config_PayloadVariant.lora) {
       final lora = config.lora;
-
+      _extraRadioConfig.setHopLimit(lora.hopLimit);
       await _radioConfigService.setLoraConfig(lora, upload: false);
     }
   }

@@ -8,13 +8,15 @@ import '../queued_radio_writer.dart';
 class RadioConfigUploaderService {
   RadioConfigUploaderService({
     required QueuedRadioWriter radioWriter,
-  }) : _radioWriter = radioWriter;
+    required int Function() myNodeNum,
+  })  : _radioWriter = radioWriter,
+        _myNodeNum = myNodeNum;
 
   final QueuedRadioWriter _radioWriter;
+  final  int Function() _myNodeNum;
   final _logger = Logger();
 
   Future<void> setLoraConfig({
-    required int nodeNum,
     required Config_LoRaConfig loraConfig,
   }) async {
     final adminMessage = AdminMessage(
@@ -26,7 +28,7 @@ class RadioConfigUploaderService {
     _logger.i('Setting loraConfig:\n$loraConfig');
 
     _radioWriter.sendMeshPacket(
-      to: nodeNum,
+      to: _myNodeNum(),
       portNum: PortNum.ADMIN_APP,
       payload: adminMessage.writeToBuffer(),
     );

@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'radio_config_service.dart';
+part of 'extra_radio_config.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$radioConfigServiceHash() =>
-    r'80e9fbc41921b29e922e64723a1d5151e23b00fb';
+String _$extraRadioConfigHash() => r'7d70e3ecceec83709ded9adfbc4d98c482f6d2a6';
 
-/// See also [RadioConfigService].
-@ProviderFor(RadioConfigService)
-final radioConfigServiceProvider =
-    NotifierProvider<RadioConfigService, RadioConfiguration>.internal(
-  RadioConfigService.new,
-  name: r'radioConfigServiceProvider',
+/// See also [ExtraRadioConfig].
+@ProviderFor(ExtraRadioConfig)
+final extraRadioConfigProvider =
+    NotifierProvider<ExtraRadioConfig, ExtraRadioConfigState>.internal(
+  ExtraRadioConfig.new,
+  name: r'extraRadioConfigProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$radioConfigServiceHash,
+      : _$extraRadioConfigHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$RadioConfigService = Notifier<RadioConfiguration>;
+typedef _$ExtraRadioConfig = Notifier<ExtraRadioConfigState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

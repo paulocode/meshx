@@ -98,7 +98,7 @@ class _LoraConfigScreenState extends ConsumerState<LoraConfigScreen> {
                 ],
                 onChanged: radioConnectorState is Connected
                     ? (value) {
-                        loraConfig.hopLimit = int.parse(value! as String);
+                        loraConfig.hopLimit = value! as int;
                       }
                     : null,
                 decoration: const InputDecoration(label: Text('Hops')),
